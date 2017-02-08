@@ -13,7 +13,7 @@
     android:background="#FFFC970B">
 
     <TextView
-        android:text="100"
+        android:text="--"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
@@ -34,7 +34,7 @@
         android:layout_marginTop="50dp" />
 
     <TextView
-        android:text="@string/temperature_text"
+        android:text="......"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/temperatureLabel"
@@ -88,7 +88,7 @@
                 android:gravity="center_horizontal" />
 
             <TextView
-                android:text="0.88"
+                android:text="--"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/humidityValue"
@@ -113,7 +113,7 @@
                 android:gravity="center_horizontal" />
 
             <TextView
-                android:text="70%"
+                android:text="--"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/precipValue"
@@ -125,7 +125,7 @@
     </LinearLayout>
 
     <TextView
-        android:text="stormy with a chance of meatballs"
+        android:text="getting current weather.."
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/summaryLabel"
