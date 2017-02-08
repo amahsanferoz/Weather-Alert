@@ -8,7 +8,9 @@ import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.precipValue) TextView mPrecipValue;
     @BindView(R.id.summaryLabel) TextView mSummaryLabel;
     @BindView(R.id.iconImageView) ImageView mIconImageView;
+    @BindView(R.id.refreshImageView) ImageView mRefreshImageView;
+    @BindView(R.id.progressBar) ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +49,29 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        //Setting the progress bar invisible in the start
+        mProgressBar.setVisibility(View.INVISIBLE);
+
+        final double latitude = 37.8267;
+        final double longitude = -122.4233;
+
+        //Refresh button to reload the weather data
+        mRefreshImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getForecast(latitude, longitude);
+            }
+        });
+
+        //get forecast data
+        getForecast(latitude, longitude);
+    }
+
+    //get forecast data to the local from internet
+    private void getForecast(double latitude, double longitude) {
+        toggleRefresh();
+
         String apiKey = "dbbd4717c2097d41eb83b7738b570a35";
-        double latitude = 37.8267;
-        double longitude = -122.4233;
         String forcastURL = "https://api.darksky.net/forecast/" + apiKey +
                 "/" + latitude + "," + longitude;
 
@@ -58,15 +82,29 @@ public class MainActivity extends AppCompatActivity {
                     .url(forcastURL)
                     .build();
 
-            okhttp3.Call call = client.newCall(request);
+            Call call = client.newCall(request);
             call.enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            toggleRefresh();
+                        }
+                    });
+                    alertUserAboutError();
                 }
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            toggleRefresh();
+                        }
+                    });
+
                     try {
                         String jsonData = response.body().string();
                         Log.v(TAG, jsonData);
@@ -92,7 +130,16 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, R.string.network_unavailable_message, Toast.LENGTH_LONG).show();
         }
+    }
 
+    private void toggleRefresh() {
+        if (mProgressBar.getVisibility() == View.INVISIBLE) {
+            mProgressBar.setVisibility(View.VISIBLE);
+            mRefreshImageView.setVisibility(View.INVISIBLE);
+        } else {
+            mProgressBar.setVisibility(View.INVISIBLE);
+            mRefreshImageView.setVisibility(View.VISIBLE);
+        }
     }
 
     private void updateDisplay() {
