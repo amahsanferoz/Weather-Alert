@@ -1,14 +1,14 @@
-package arora.ahsanferoz.stormy;
+package arora.ahsanferoz.stormy.weather;
 
 /**
  * Created by ahsanferoz on 08/02/2017.
  */
 
-public class Hour {
+public class Day {
 
     private long mTime;
     private String mSummary;
-    private double mTemperature;
+    private Double mTemperatureMax;
     private String mIcon;
     private String mTimezone;
 
@@ -28,12 +28,12 @@ public class Hour {
         mSummary = summary;
     }
 
-    public double getTemperature() {
-        return mTemperature;
+    public Double getTemperatureMax() {
+        return mTemperatureMax;
     }
 
-    public void setTemperature(double temperature) {
-        mTemperature = temperature;
+    public void setTemperatureMax(Double temperatureMax) {
+        mTemperatureMax = temperatureMax;
     }
 
     public String getIcon() {

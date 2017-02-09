@@ -1,8 +1,10 @@
-package arora.ahsanferoz.stormy;
+package arora.ahsanferoz.stormy.weather;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
+
+import arora.ahsanferoz.stormy.R;
 
 /**
  * Created by ahsanferoz on 06/02/2017.
