@@ -1,10 +1,17 @@
 package arora.ahsanferoz.stormy.weather;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+
 /**
  * Created by ahsanferoz on 08/02/2017.
  */
 
-public class Day {
+public class Day implements Parcelable {
 
     private long mTime;
     private String mSummary;
@@ -28,8 +35,8 @@ public class Day {
         mSummary = summary;
     }
 
-    public Double getTemperatureMax() {
-        return mTemperatureMax;
+    public int getTemperatureMax() {
+        return (int) Math.round(mTemperatureMax);
     }
 
     public void setTemperatureMax(Double temperatureMax) {
@@ -50,5 +57,31 @@ public class Day {
 
     public void setTimezone(String timezone) {
         mTimezone = timezone;
+    }
+
+    public int getIconId() {
+        return Forecast.getIconId(mIcon);
+    }
+
+    public String getDayOfTheWeek() {
+        SimpleDateFormat formatter = new SimpleDateFormat("EEEE");
+        formatter.setTimeZone(TimeZone.getTimeZone(mTimezone));
+
+        Date dateTime = new Date(mTime * 1000);
+        return formatter.format(dateTime);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeLong(mTime);
+        parcel.writeString(mSummary);
+        parcel.writeDouble(mTemperatureMax);
+        parcel.writeString(mIcon);
+        parcel.writeString(mTimezone);
     }
 }
