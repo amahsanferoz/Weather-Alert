@@ -19,6 +19,10 @@ public class Day implements Parcelable {
     private String mIcon;
     private String mTimezone;
 
+    public Day() {
+
+    }
+
     public long getTime() {
         return mTime;
     }
@@ -103,5 +107,5 @@ public class Day implements Parcelable {
         public Day[] newArray(int i) {
             return new Day[i];
         }
-    }
+    };
 }
